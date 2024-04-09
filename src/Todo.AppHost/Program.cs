@@ -2,9 +2,8 @@ using Todo.Common;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var sql = builder.AddSqlServer(Constants.AspireResources.Sql, "MyStrongSqlPassword!", 1433)
+var sql = builder.AddSqlServer(Constants.AspireResources.Sql, "MyStrongSqlPassword!", 53547)
                  .WithVolumeMount("VolumeMount.sqlserver.data", "/var/opt/mssql")
-                 .WithEndpoint(1433, 1433)
                  .AddDatabase(Constants.Database.Name);
 
 var apiService = builder.AddProject<Projects.Todo_Api>(Constants.AspireResources.Api)
