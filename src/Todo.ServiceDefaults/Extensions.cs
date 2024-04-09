@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using Todo.Common;
 
 namespace Microsoft.Extensions.Hosting;
 
@@ -27,6 +28,8 @@ public static class Extensions
             // Turn on service discovery by default
             http.UseServiceDiscovery();
         });
+
+        builder.Services.AddSystemClock();
 
         return builder;
     }

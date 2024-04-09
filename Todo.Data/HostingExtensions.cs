@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Todo.Common;
 using Todo.Data.DbContexts;
+using Todo.Data.Interceptors;
 
 namespace Todo.Data;
 
@@ -8,7 +9,20 @@ public static class HostingExtensions
 {
     public static IHostApplicationBuilder AddDb(this IHostApplicationBuilder builder)
     {
-        builder.AddSqlServerDbContext<TodoDbContext>(Constants.Database.Name);
+        builder.Services.AddSingleton<IAuditableInterceptor>();
+
+        builder.Services.AddSystemClock();
+
+        builder.AddSqlServerDbContext<TodoDbContext>(Constants.Database.Name, settings =>
+        {
+        }, (cfg) =>
+        {
+            cfg.UseSqlServer(opt =>
+            {
+                opt.MigrationsAssembly(typeof(TodoDbContext).Assembly);
+            })
+            .AddInterceptors([new IAuditableInterceptor()]);
+        });
 
         return builder;
     }
@@ -19,7 +33,11 @@ public static class HostingExtensions
         var context = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
 
         await context.Database.EnsureCreatedAsync();
-        await context.Database.MigrateAsync();
+
+        if (context.Database.HasPendingModelChanges())
+        {
+            await context.Database.MigrateAsync();
+        }
 
         return app;
     }

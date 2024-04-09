@@ -24,7 +24,7 @@ app.MapGet("/todos/{todoId}", async (
     [FromRoute] Guid todoId,
     [FromServices] TodoDbContext db) =>
 {
-    var todo = await db.TodoRecords.FindAsync(todoId);
+    var todo = await db.Todos.FindAsync(todoId);
     return todo;
 });
 
