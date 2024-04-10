@@ -9,9 +9,9 @@ public class TodoListRecord : IDeleteable
 {
     public Guid Id { get; }
     public string Name { get; set; } = string.Empty;
-    public ICollection<TodoRecord> Todos { get; } = new List<TodoRecord>();
-    public DateTimeOffset CreatedAt { get; }
-    public DateTimeOffset? ModifiedAt { get; }
+    public ICollection<TodoRecord> Todos { get; set; } = new List<TodoRecord>();
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? ModifiedAt { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
 }
 

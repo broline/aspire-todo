@@ -20,6 +20,7 @@ public static class HostingExtensions
             cfg.UseSqlServer(opt =>
             {
                 opt.MigrationsAssembly(typeof(TodoDbContext).Assembly);
+                opt.MigrationsHistoryTable("__MigrationsHistory", "dbo");
             })
             .AddInterceptors([new IAuditableInterceptor()]);
         });
@@ -31,13 +32,7 @@ public static class HostingExtensions
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
-
-        await context.Database.EnsureCreatedAsync();
-
-        if (context.Database.HasPendingModelChanges())
-        {
-            await context.Database.MigrateAsync();
-        }
+        await context.Database.MigrateAsync();
 
         return app;
     }

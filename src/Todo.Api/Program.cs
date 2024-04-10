@@ -42,6 +42,7 @@ if (!app.Environment.IsProduction())
 app.UseExceptionHandler();
 
 app.UseTodoEndpoints();
+app.UseTodoListEndpoints();
 
 app.MapDefaultEndpoints();
 

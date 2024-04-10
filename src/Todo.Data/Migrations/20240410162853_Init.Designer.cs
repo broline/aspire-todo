@@ -12,7 +12,7 @@ using Todo.Data.DbContexts;
 namespace Todo.Data.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20240409210821_Init")]
+    [Migration("20240410162853_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -35,6 +35,9 @@ namespace Todo.Data.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("ModifiedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
@@ -68,6 +71,9 @@ namespace Todo.Data.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTimeOffset?>("ModifiedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .IsRequired()

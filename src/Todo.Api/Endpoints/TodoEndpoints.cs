@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Todo.Abstractions;
+﻿using Todo.Abstractions;
 using Todo.Abstractions.Requests;
 using Todo.Api.Mappings;
+using Todo.Common;
 using Todo.Data.DbContexts;
 
 namespace Todo.Api.Endpoints;
@@ -19,11 +19,52 @@ public static class TodoEndpoints
 
             var todo = await db.Todos.AddAsync(request.ToRecord());
 
+            await db.SaveChangesAsync();
+
             return Results.Ok(todo.Entity.ToAbstraction());
         })
             .WithName("CreateTodo")
             .Produces<Abstractions.Todo>(StatusCodes.Status200OK)
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest);
+
+        app.MapPatch("/todos/{todoId}", async (
+            Guid todoId,
+            UpdateTodoRequest request,
+            TodoDbContext db,
+            IClock clock) =>
+        {
+            var todo = await db.Todos.FindAsync(todoId);
+
+            if (todo is null)
+                return Results.NotFound(new ErrorResponse("Todo not found"));
+
+            if (todo.DeletedAt is not null)
+                return Results.Conflict(new ErrorResponse("Todo has been deleted"));
+
+            if (request.Name is not null)
+                todo.Name = request.Name;
+
+            if (request.Description is not null)
+                todo.Description = request.Description;
+
+            if (request.IsCompleted is true && todo.CompletedAt is null)
+            {
+                todo.CompletedAt = clock.UtcNow;
+            }
+
+            if (request.IsCompleted is false && todo.CompletedAt is not null)
+            {
+                todo.CompletedAt = null;
+            }
+
+            await db.SaveChangesAsync();
+
+            return Results.Ok(todo.ToAbstraction());
+        })
+            .WithName("UpdateTodo")
+            .Produces<Abstractions.Todo>(StatusCodes.Status200OK)
+            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+            .Produces<ErrorResponse>(StatusCodes.Status404NotFound);
 
         app.MapGet("/todos/{todoId}", async (
             Guid todoId,
@@ -38,6 +79,31 @@ public static class TodoEndpoints
         })
             .WithName("GetTodo")
             .Produces<Abstractions.Todo>(StatusCodes.Status200OK)
+            .Produces<ErrorResponse>(StatusCodes.Status404NotFound);
+
+        app.MapDelete("/todos/{todoId}", async (
+            Guid todoId,
+            TodoDbContext db,
+            IClock clock) =>
+        {
+            var todo = await db.Todos.FindAsync(todoId);
+
+            if (todo is null)
+                return Results.NotFound(new ErrorResponse("Todo not found"));
+
+            if (todo.DeletedAt is not null)
+                return Results.Conflict(new ErrorResponse("Todo already deleted"));
+
+            todo.DeletedAt = clock.UtcNow;
+
+            await db.SaveChangesAsync();
+
+            return Results.Ok(todo.ToAbstraction());
+        })
+            .WithName("DeleteTodo")
+            .Produces<Abstractions.Todo>(StatusCodes.Status200OK)
+            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+            .Produces<ErrorResponse>(StatusCodes.Status409Conflict)
             .Produces<ErrorResponse>(StatusCodes.Status404NotFound);
     }
 }

@@ -4,6 +4,6 @@ public interface IDeleteable : IAuditable
 {
     DateTimeOffset? DeletedAt { get; set; }
 
-    bool IsDeleted => DeletedAt.HasValue;
+    public bool IsDeleted => DeletedAt.HasValue;
 }
 

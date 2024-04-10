@@ -1,4 +1,5 @@
-﻿using Todo.Data.Records;
+﻿using Todo.Abstractions.Requests;
+using Todo.Data.Records;
 
 namespace Todo.Api.Mappings;
 
@@ -14,6 +15,14 @@ public static class TodoListMappings
             CreatedAt = record.CreatedAt,
             ModifiedAt = record.ModifiedAt,
             DeletedAt = record.DeletedAt
+        };
+    }
+
+    public static TodoListRecord ToRecord(this CreateTodoListRequest request)
+    {
+        return new TodoListRecord
+        {
+            Name = request.Name
         };
     }
 }
