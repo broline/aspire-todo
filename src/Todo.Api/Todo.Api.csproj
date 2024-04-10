@@ -8,9 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.4.24156.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Todo.Abstractions\Todo.Abstractions.csproj" />
     <ProjectReference Include="..\Todo.Common\Todo.Common.csproj" />
     <ProjectReference Include="..\Todo.Data\Todo.Data.csproj" />
     <ProjectReference Include="..\Todo.ServiceDefaults\Todo.ServiceDefaults.csproj" />

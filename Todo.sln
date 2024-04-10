@@ -20,10 +20,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todo.Common", "src\Todo.Com
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0CFBECA4-0F1E-4B96-B486-DF4FB4124E05}"
 	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		GitVersion.yml = GitVersion.yml
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Abstractions", "Todo.Abstractions\Todo.Abstractions.csproj", "{F83271D5-A877-47CB-9173-A59620D59116}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +55,10 @@ Global
 		{E65DFEA1-B244-4DDA-B657-6C1B6A31FE55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E65DFEA1-B244-4DDA-B657-6C1B6A31FE55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E65DFEA1-B244-4DDA-B657-6C1B6A31FE55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F83271D5-A877-47CB-9173-A59620D59116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F83271D5-A877-47CB-9173-A59620D59116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F83271D5-A877-47CB-9173-A59620D59116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F83271D5-A877-47CB-9173-A59620D59116}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +70,7 @@ Global
 		{9D806714-A49A-4E8D-901E-697D6BDB0E7F} = {82862A9E-6ECE-476D-9A60-FC3483E82336}
 		{7047EAAB-70BB-4A69-8AA4-6FDB900FE89D} = {82862A9E-6ECE-476D-9A60-FC3483E82336}
 		{E65DFEA1-B244-4DDA-B657-6C1B6A31FE55} = {82862A9E-6ECE-476D-9A60-FC3483E82336}
+		{F83271D5-A877-47CB-9173-A59620D59116} = {82862A9E-6ECE-476D-9A60-FC3483E82336}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47142841-32C1-4445-8363-B59D14D2B678}

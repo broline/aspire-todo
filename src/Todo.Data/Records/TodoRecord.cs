@@ -10,7 +10,7 @@ public class TodoRecord : IDeleteable
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public Guid TodoListId { get; } = new();
+    public Guid TodoListId { get; set; } = new();
     public TodoListRecord TodoList { get; } = new();
     public DateTimeOffset CreatedAt { get; }
     public DateTimeOffset? ModifiedAt { get; }
