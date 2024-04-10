@@ -336,5 +336,3 @@ appsettings.local.json
 secrets.json
 *.dtmp
 *.drawio.bkp
-test/AR.Places.Api.Tests/lcov.info
-test/AR.Places.Api.Tests/coverage.json
