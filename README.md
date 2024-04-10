@@ -6,7 +6,7 @@ Sandbox application for testing out .Net [Aspire](https://learn.microsoft.com/en
 
 Visual Studio
 
-Set Todo.Apphost as the startup project and run
+Set `Todo.Apphost` as the startup project and run
 
 CLI
 
@@ -18,4 +18,5 @@ CLI
 > Using the package manager console
 
 Add a migration
+
 `dotnet tool run dotnet-ef migrations add MigrationName --project Todo.Data`
