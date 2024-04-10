@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Todo.Common\Todo.Common.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="..\Todo.Api\Todo.Api.csproj" />
+    <ProjectReference Include="..\Todo.Common\Todo.Common.csproj" />
     <ProjectReference Include="..\Todo.Web\Todo.Web.csproj" />
   </ItemGroup>
 

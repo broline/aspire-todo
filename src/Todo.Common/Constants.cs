@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Todo.Common
+﻿namespace Todo.Common
 {
     public static class Constants
     {
