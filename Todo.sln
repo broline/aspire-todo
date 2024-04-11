@@ -27,6 +27,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todo.Abstractions", "Todo.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Client", "src\Todo.Client\Todo.Client.csproj", "{18E216DE-BFC3-4EFB-8446-E8F58D06C953}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{94F96022-C6C9-4E1B-A7EF-1E0C52302579}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todo.Api.Tests", "test\Todo.Api.Tests\Todo.Api.Tests.csproj", "{35ABC232-0699-4695-8917-296AC07B45CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,10 @@ Global
 		{18E216DE-BFC3-4EFB-8446-E8F58D06C953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18E216DE-BFC3-4EFB-8446-E8F58D06C953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18E216DE-BFC3-4EFB-8446-E8F58D06C953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35ABC232-0699-4695-8917-296AC07B45CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35ABC232-0699-4695-8917-296AC07B45CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35ABC232-0699-4695-8917-296AC07B45CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35ABC232-0699-4695-8917-296AC07B45CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +86,7 @@ Global
 		{E65DFEA1-B244-4DDA-B657-6C1B6A31FE55} = {82862A9E-6ECE-476D-9A60-FC3483E82336}
 		{F83271D5-A877-47CB-9173-A59620D59116} = {82862A9E-6ECE-476D-9A60-FC3483E82336}
 		{18E216DE-BFC3-4EFB-8446-E8F58D06C953} = {82862A9E-6ECE-476D-9A60-FC3483E82336}
+		{35ABC232-0699-4695-8917-296AC07B45CE} = {94F96022-C6C9-4E1B-A7EF-1E0C52302579}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47142841-32C1-4445-8363-B59D14D2B678}
