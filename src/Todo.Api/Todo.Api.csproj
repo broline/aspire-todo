@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="swagger.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.4.24156.9" />
+    <PackageReference Include="NSwag.AspNetCore" Version="14.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
@@ -17,5 +22,27 @@
     <ProjectReference Include="..\Todo.Data\Todo.Data.csproj" />
     <ProjectReference Include="..\Todo.ServiceDefaults\Todo.ServiceDefaults.csproj" />
   </ItemGroup>
+
+  <Target Name="GenerateOpenApiDocument">
+    <Exec Command="dotnet tool restore" WorkingDirectory="../$(AssemblyName)" />
+    <Exec Command="dotnet swagger tofile --output swagger.json $(OutputPath)$(AssemblyName).dll v1" EnvironmentVariables="DOTNET_ENVIRONMENT=OpenApi" />
+  </Target>
+
+  <Target Name="GenerateNSwagClients">
+    <PropertyGroup>
+      <InputSwagger>swagger.json</InputSwagger>
+      <OutputPath>./</OutputPath>
+      <ClientName>Todo.Client</ClientName>
+      <ClientNamespace>Todo.Client</ClientNamespace>
+    </PropertyGroup>
+    <Exec Command="dotnet nswag run nswag.json /variables:Input=$(InputSwagger)" />
+  </Target>
+
+  <Target Name="IncludeNSwagClients" AfterTargets="PostBuildEvent" DependsOnTargets="GenerateOpenApiDocument;GenerateNSwagClients" Condition=" '$(Configuration)' == 'Debug' ">
+    <ItemGroup Condition="Exists('$(GeneratedCSharpClientFile)')">
+      <Compile Include="$(GeneratedCSharpClientFile)" />
+      <FileWrites Include="$(GeneratedCSharpClientFile)" />
+    </ItemGroup>
+  </Target>
 
 </Project>

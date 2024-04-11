@@ -5,9 +5,9 @@ namespace Todo.Api.Mappings;
 
 public static class TodoMappings
 {
-    public static Abstractions.Todo ToAbstraction(this TodoRecord record)
+    public static Abstractions.TodoItem ToAbstraction(this TodoRecord record)
     {
-        return new Abstractions.Todo
+        return new Abstractions.TodoItem
         {
             Id = record.Id,
             Name = record.Name,

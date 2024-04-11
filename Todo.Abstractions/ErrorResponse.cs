@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Todo.Abstractions
+namespace Todo.Abstractions;
+
+public class ErrorResponse
 {
-    public class ErrorResponse
+    public string Message { get; set; } = string.Empty;
+
+    public ErrorResponse() { }
+
+    public ErrorResponse(string message)
     {
-        public string Message { get; set; } = string.Empty;
-
-        public ErrorResponse() { }
-
-        public ErrorResponse(string message)
-        {
-            Message = message;
-        }
+        Message = message;
     }
 }

@@ -19,5 +19,10 @@
         {
             public const string Name = "Todos";
         }
+
+        public static class EnvironmentNames
+        {
+            public const string OpenApi = "OpenApi";
+        }
     }
 }

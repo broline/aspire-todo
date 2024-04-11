@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Todo.Abstractions;
 using Todo.Abstractions.Requests;
 using Todo.Api.Mappings;
@@ -13,7 +14,7 @@ public static class TodoListEndpoints
     {
         app.MapPost("/todo-lists", async (
             CreateTodoListRequest request,
-            TodoDbContext db) =>
+            [FromServices] TodoDbContext db) =>
         {
             var todoList = await db.TodoLists.AddAsync(request.ToRecord());
 
@@ -28,8 +29,8 @@ public static class TodoListEndpoints
         app.MapPatch("/todo-lists/{todoListId}", async (
             Guid todoListId,
             UpdateTodoListRequest request,
-            TodoDbContext db,
-            IClock clock) =>
+            [FromServices] TodoDbContext db,
+            [FromServices] IClock clock) =>
         {
             var todoList = await db.TodoLists.FindAsync(todoListId);
 
@@ -52,7 +53,7 @@ public static class TodoListEndpoints
             .Produces<ErrorResponse>(StatusCodes.Status404NotFound);
 
         app.MapGet("/todo-lists", async (
-            TodoDbContext db) =>
+            [FromServices] TodoDbContext db) =>
         {
             var todoLists = await db.TodoLists.AsNoTracking().ToListAsync();
 
@@ -64,8 +65,8 @@ public static class TodoListEndpoints
 
         app.MapDelete("/todo-lists/{todoListId}", async (
             Guid todoListId,
-            TodoDbContext db,
-            IClock clock) =>
+            [FromServices] TodoDbContext db,
+            [FromServices] IClock clock) =>
         {
             var todoList = await db.TodoLists.FindAsync(todoListId);
 

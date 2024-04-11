@@ -3,6 +3,7 @@ using Todo.Data;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Api.Endpoints;
 using Todo.Abstractions;
+using Todo.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApiDocument();
 builder.Services.AddSwaggerGen();
 
 // Add services to the container.
@@ -26,11 +28,13 @@ builder.Services.Configure<ApiBehaviorOptions>(o =>
     };
 });
 
-builder.AddDb();
+if (builder.Environment.EnvironmentName != Constants.EnvironmentNames.OpenApi)
+    builder.AddDb();
 
 var app = builder.Build();
 
-await app.UseDb();
+if (app.Environment.EnvironmentName != Constants.EnvironmentNames.OpenApi)
+    await app.UseDb();
 
 if (!app.Environment.IsProduction())
 {
