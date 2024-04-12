@@ -1,6 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Todo.Common;
 
-var builder = Todo.AppHost.ApplicationBuilder.CreateBuilder(args);
+var builder = DistributedApplication.CreateBuilder(args);
+
+var sql = builder.AddSqlServer(Constants.AspireResources.Sql, "MyStrongSqlPassword!", 53547)
+                 .WithVolumeMount("todo.sql", "/var/opt/mssql")
+                 .AddDatabase(Constants.Database.Name);
+
+var apiService = builder.AddProject<Projects.Todo_Api>(Constants.AspireResources.Api)
+    .WithReference(sql);
+
+builder.AddProject<Projects.Todo_Web>(Constants.AspireResources.Frontend)
+    .WithReference(apiService);
 
 builder.Build().Run();

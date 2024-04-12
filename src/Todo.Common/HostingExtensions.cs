@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Todo.Common
 {
@@ -6,6 +7,6 @@ namespace Todo.Common
     {
         public static IServiceCollection AddSystemClock(this IServiceCollection svc) => svc.AddSingleton<IClock, SystemClock>();
 
-        public static IServiceCollection AddFrozenClock(this IServiceCollection svc) => svc.AddSingleton<IClock, FrozenClock>();
+        public static IServiceCollection AddFrozenClock(this IServiceCollection svc) => svc.Replace(ServiceDescriptor.Singleton<IClock, FrozenClock>());
     }
 }

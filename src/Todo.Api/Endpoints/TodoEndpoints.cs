@@ -15,7 +15,7 @@ public static class TodoEndpoints
             CreateTodoRequest request,
             [FromServices] TodoDbContext db) =>
         {
-            if (await db.TodoLists.FindAsync(request.TodoListId) is null)
+            if (request.TodoListId == Guid.Empty || await db.TodoLists.FindAsync(request.TodoListId) is null)
                 return Results.BadRequest(new ErrorResponse("Invalid todo list"));
 
             var todo = await db.Todos.AddAsync(request.ToRecord());
@@ -25,7 +25,7 @@ public static class TodoEndpoints
             return Results.Ok(todo.Entity.ToAbstraction());
         })
             .WithName("CreateTodo")
-            .Produces<Abstractions.TodoItem>(StatusCodes.Status200OK)
+            .Produces<TodoItem>(StatusCodes.Status200OK)
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest);
 
         app.MapPatch("/todos/{todoId}", async (

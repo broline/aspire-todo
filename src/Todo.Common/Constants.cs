@@ -6,6 +6,7 @@
         {
             public const string Api = "Todo.Api";
             public const string Frontend = "Todo.Web";
+            public const string ApiTests = "Todo.Api.Tests";
         }
 
         public static class AspireResources
@@ -23,6 +24,11 @@
         public static class EnvironmentNames
         {
             public const string OpenApi = "OpenApi";
+        }
+
+        public static class Roles
+        {
+            public const string User = "User";
         }
     }
 }
