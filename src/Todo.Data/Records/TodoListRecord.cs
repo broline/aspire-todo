@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.ComponentModel.DataAnnotations;
 
 namespace Todo.Data.Records;
 
@@ -21,7 +20,7 @@ public class TodoListRecordConfiguration : IEntityTypeConfiguration<TodoListReco
     {
         builder.ToTable("TodoList");
 
-        builder.HasKey(t => t.Id)
+        builder.HasKey(t => t.Id)    
             .IsClustered();
 
         builder.HasIndex(x => x.Name)
