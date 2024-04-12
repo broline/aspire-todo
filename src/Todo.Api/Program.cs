@@ -1,9 +1,8 @@
-using Todo.Data.DbContexts;
 using Todo.Data;
 using Microsoft.AspNetCore.Mvc;
-using Todo.Api.Endpoints;
 using Todo.Abstractions;
 using Todo.Common;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +16,12 @@ builder.Services.AddSwaggerGen();
 // Add services to the container.
 builder.Services.AddProblemDetails();
 
-builder.Services.AddMvcCore()
-        .AddDataAnnotations();
+builder.Services.AddControllers()
+    .AddJsonOptions(x =>
+    {
+        x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        x.JsonSerializerOptions.TypeInfoResolverChain.Insert(0, TodoApiSerializationContext.Default);
+    });
 
 builder.Services.Configure<ApiBehaviorOptions>(o =>
 {
@@ -45,17 +48,12 @@ if (!app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 
-// Configure the HTTP request pipeline.
-app.UseExceptionHandler();
+app.UseRouting();
 
-app.UseTodoEndpoints();
-app.UseTodoListEndpoints();
+app.UseExceptionHandler();
 
 app.MapDefaultEndpoints();
 
-app.Run();
+app.MapControllers();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+app.Run();

@@ -6,6 +6,6 @@ namespace Todo.Abstractions.Requests;
 public class CreateTodoListRequest
 {
     [Required]
-    [MaxLength(100)]
+    [MaxLength(50)]
     public string Name { get; set; } = string.Empty;
 }

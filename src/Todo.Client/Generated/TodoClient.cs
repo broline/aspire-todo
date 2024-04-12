@@ -33,12 +33,12 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TodoItem> CreateTodoAsync(CreateTodoRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TodoItem> CreateTodoAsync(CreateTodoRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TodoItem> UpdateTodoAsync(System.Guid todoId, UpdateTodoRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TodoItem> UpdateTodoAsync(System.Guid todoId, UpdateTodoRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
@@ -53,22 +53,22 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TodoList> CreateTodoListAsync(CreateTodoListRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TodoItem> CreateTodoListAsync(CreateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TodoList>> GetTodoListsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TodoItem> GetTodoListsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TodoList> UpdateTodoListAsync(System.Guid todoListId, UpdateTodoListRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TodoItem> UpdateTodoListAsync(System.Guid todoListId, UpdateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TodoList> DeleteTodoListAsync(System.Guid todoListId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TodoItem> DeleteTodoListAsync(System.Guid todoListId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -102,11 +102,8 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TodoItem> CreateTodoAsync(CreateTodoRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<TodoItem> CreateTodoAsync(CreateTodoRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            if (body == null)
-                throw new System.ArgumentNullException("body");
-
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("todos");
 
@@ -121,7 +118,7 @@ namespace Todo.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -192,13 +189,10 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TodoItem> UpdateTodoAsync(System.Guid todoId, UpdateTodoRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<TodoItem> UpdateTodoAsync(System.Guid todoId, UpdateTodoRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (todoId == null)
                 throw new System.ArgumentNullException("todoId");
-
-            if (body == null)
-                throw new System.ArgumentNullException("body");
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("todos/{todoId}");
@@ -215,7 +209,7 @@ namespace Todo.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PATCH");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -253,17 +247,6 @@ namespace Todo.Client
                             return objectResponse_.Object;
                         }
                         else
-                        if (status_ == 400)
-                        {
-                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
-                            try
-                            {
-                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            }
-                            catch { }
-                            throw new TodoApiException<ErrorResponse>("Bad Request: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Bad Request"), null);
-                        }
-                        else
                         if (status_ == 404)
                         {
                             ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
@@ -273,6 +256,17 @@ namespace Todo.Client
                             }
                             catch { }
                             throw new TodoApiException<ErrorResponse>("Not Found: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Not Found"), null);
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
+                            try
+                            {
+                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            }
+                            catch { }
+                            throw new TodoApiException<ErrorResponse>("Bad Request: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Bad Request"), null);
                         }
                         else
                         {
@@ -313,7 +307,7 @@ namespace Todo.Client
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -360,6 +354,17 @@ namespace Todo.Client
                             }
                             catch { }
                             throw new TodoApiException<ErrorResponse>("Not Found: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Not Found"), null);
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
+                            try
+                            {
+                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            }
+                            catch { }
+                            throw new TodoApiException<ErrorResponse>("Bad Request: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Bad Request"), null);
                         }
                         else
                         {
@@ -400,7 +405,116 @@ namespace Todo.Client
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            ObjectResponseResult<TodoItem> objectResponse_ = default!;
+                            try
+                            {
+                                objectResponse_ = await ReadObjectResponseAsync<TodoItem>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            }
+                            catch { }
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new TodoApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
+                            try
+                            {
+                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            }
+                            catch { }
+                            throw new TodoApiException<ErrorResponse>("Not Found: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Not Found"), null);
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
+                            try
+                            {
+                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            }
+                            catch { }
+                            throw new TodoApiException<ErrorResponse>("Bad Request: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Bad Request"), null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
+                            try
+                            {
+                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            }
+                            catch { }
+                            throw new TodoApiException<ErrorResponse>("Conflict: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Conflict"), null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new TodoApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="TodoApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<TodoItem> CreateTodoListAsync(CreateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append("todo-lists");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.Serialize(body, _settings.Value);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -449,28 +563,6 @@ namespace Todo.Client
                             throw new TodoApiException<ErrorResponse>("Bad Request: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Bad Request"), null);
                         }
                         else
-                        if (status_ == 409)
-                        {
-                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
-                            try
-                            {
-                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            }
-                            catch { }
-                            throw new TodoApiException<ErrorResponse>("Conflict: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Conflict"), null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
-                            try
-                            {
-                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            }
-                            catch { }
-                            throw new TodoApiException<ErrorResponse>("Not Found: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Not Found"), null);
-                        }
-                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new TodoApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -493,97 +585,7 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TodoList> CreateTodoListAsync(CreateTodoListRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            if (body == null)
-                throw new System.ArgumentNullException("body");
-
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("todo-lists");
-
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    var json_ = System.Text.Json.JsonSerializer.Serialize(body, _settings.Value);
-                    var content_ = new System.Net.Http.StringContent(json_);
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            ObjectResponseResult<TodoList> objectResponse_ = default!;
-                            try
-                            {
-                                objectResponse_ = await ReadObjectResponseAsync<TodoList>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            }
-                            catch { }
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new TodoApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
-                            try
-                            {
-                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            }
-                            catch { }
-                            throw new TodoApiException<ErrorResponse>("Bad Request: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Bad Request"), null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new TodoApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TodoList>> GetTodoListsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<TodoItem> GetTodoListsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("todo-lists");
@@ -595,7 +597,7 @@ namespace Todo.Client
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -620,10 +622,10 @@ namespace Todo.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            ObjectResponseResult<System.Collections.Generic.ICollection<TodoList>> objectResponse_ = default!;
+                            ObjectResponseResult<TodoItem> objectResponse_ = default!;
                             try
                             {
-                                objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<TodoList>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                                objectResponse_ = await ReadObjectResponseAsync<TodoItem>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             }
                             catch { }
                             if (objectResponse_.Object == null)
@@ -631,17 +633,6 @@ namespace Todo.Client
                                 throw new TodoApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
-                            try
-                            {
-                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            }
-                            catch { }
-                            throw new TodoApiException<ErrorResponse>("Not Found: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Not Found"), null);
                         }
                         else
                         {
@@ -666,13 +657,10 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TodoList> UpdateTodoListAsync(System.Guid todoListId, UpdateTodoListRequest body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<TodoItem> UpdateTodoListAsync(System.Guid todoListId, UpdateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (todoListId == null)
                 throw new System.ArgumentNullException("todoListId");
-
-            if (body == null)
-                throw new System.ArgumentNullException("body");
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("todo-lists/{todoListId}");
@@ -689,7 +677,7 @@ namespace Todo.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PATCH");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -714,10 +702,10 @@ namespace Todo.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            ObjectResponseResult<TodoList> objectResponse_ = default!;
+                            ObjectResponseResult<TodoItem> objectResponse_ = default!;
                             try
                             {
-                                objectResponse_ = await ReadObjectResponseAsync<TodoList>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                                objectResponse_ = await ReadObjectResponseAsync<TodoItem>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             }
                             catch { }
                             if (objectResponse_.Object == null)
@@ -725,17 +713,6 @@ namespace Todo.Client
                                 throw new TodoApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
-                            try
-                            {
-                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            }
-                            catch { }
-                            throw new TodoApiException<ErrorResponse>("Bad Request: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Bad Request"), null);
                         }
                         else
                         if (status_ == 404)
@@ -747,82 +724,6 @@ namespace Todo.Client
                             }
                             catch { }
                             throw new TodoApiException<ErrorResponse>("Not Found: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Not Found"), null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new TodoApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TodoList> DeleteTodoListAsync(System.Guid todoListId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            if (todoListId == null)
-                throw new System.ArgumentNullException("todoListId");
-
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("todo-lists/{todoListId}");
-            urlBuilder_.Replace("{todoListId}", System.Uri.EscapeDataString(ConvertToString(todoListId, System.Globalization.CultureInfo.InvariantCulture)));
-
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            ObjectResponseResult<TodoList> objectResponse_ = default!;
-                            try
-                            {
-                                objectResponse_ = await ReadObjectResponseAsync<TodoList>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            }
-                            catch { }
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new TodoApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)
@@ -847,6 +748,82 @@ namespace Todo.Client
                             throw new TodoApiException<ErrorResponse>("Conflict: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Conflict"), null);
                         }
                         else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new TodoApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="TodoApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<TodoItem> DeleteTodoListAsync(System.Guid todoListId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            if (todoListId == null)
+                throw new System.ArgumentNullException("todoListId");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append("todo-lists/{todoListId}");
+            urlBuilder_.Replace("{todoListId}", System.Uri.EscapeDataString(ConvertToString(todoListId, System.Globalization.CultureInfo.InvariantCulture)));
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            ObjectResponseResult<TodoItem> objectResponse_ = default!;
+                            try
+                            {
+                                objectResponse_ = await ReadObjectResponseAsync<TodoItem>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            }
+                            catch { }
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new TodoApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
                         if (status_ == 404)
                         {
                             ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
@@ -856,6 +833,17 @@ namespace Todo.Client
                             }
                             catch { }
                             throw new TodoApiException<ErrorResponse>("Not Found: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Not Found"), null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
+                            try
+                            {
+                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            }
+                            catch { }
+                            throw new TodoApiException<ErrorResponse>("Conflict: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Conflict"), null);
                         }
                         else
                         {
