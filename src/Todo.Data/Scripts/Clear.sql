@@ -1,0 +1,2 @@
+delete todo;
+delete todolist;

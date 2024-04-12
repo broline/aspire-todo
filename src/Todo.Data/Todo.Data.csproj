@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Scripts\" />
   </ItemGroup>
 
   <Target Name="Restore Local Tools" AfterTargets="BeforeBuild">

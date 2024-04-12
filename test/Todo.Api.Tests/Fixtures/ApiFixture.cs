@@ -1,7 +1,5 @@
-﻿using MartinCostello.Logging.XUnit;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Xunit.Abstractions;
 using Todo.Common;
 using Todo.Client;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,15 +13,13 @@ using FluentAssertions;
 // the WebApplicationFactory. Hoping they better support integration tests soon
 namespace Todo.Api.Tests;
 
-public class ApiFixture : WebApplicationFactory<Program>, IAsyncLifetime, ITestOutputHelperAccessor
+public class ApiFixture : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private IHost? _app;
     public IResourceBuilder<SqlServerDatabaseResource> _sql { get; private set; }
 
     public FrozenClock Clock => (Services.GetRequiredService<IClock>() as FrozenClock)!;
     public TodoClient Client => (Services.GetRequiredService<ITodoClient>() as TodoClient)!;
-    public ITestOutputHelper? OutputHelper { get; set; }
-
     protected TestJwtToken Token { get; set; } = new();
 
     public ApiFixture()
@@ -92,6 +88,16 @@ public class ApiFixture : WebApplicationFactory<Program>, IAsyncLifetime, ITestO
     {
         await _app!.StartAsync();
 
+        //var db = _app.Services.GetRequiredService<TodoDbContext>();
+
+        //var clearScriptStream = Assembly.GetAssembly(typeof(TodoDbContext))!
+        //    .GetManifestResourceStream("Todo.Data.Scripts.Clear.sql");
+
+        //using StreamReader reader = new StreamReader(clearScriptStream!);
+        //var clearSql = reader.ReadToEnd();
+
+        //var clearDb = db.Database.ExecuteSqlRawAsync(clearSql);
+
         Client.WithHttpClient(CreateClient());
 
         SetRoles(Constants.Roles.User);
@@ -100,6 +106,9 @@ public class ApiFixture : WebApplicationFactory<Program>, IAsyncLifetime, ITestO
         .WithEmail("TestUser@todoapp.com"));
 
         Clock.SetUtcNow(DateTimeOffset.UtcNow);
+
+        // Clear db
+        //await clearDb;
     }
 
     public TestJwtToken ConfigureToken(Action<TestJwtToken> configure)

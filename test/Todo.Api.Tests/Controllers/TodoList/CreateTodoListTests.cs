@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using Todo.Abstractions;
 using Todo.Abstractions.Requests;
+using Todo.Api.Tests.Fixtures;
 using Xunit.Abstractions;
 
 namespace Todo.Api.Tests.Endpoints.Todo;
-[Trait("Category", "TodoListEndpoints")]
 [Trait("Scenario", "CreateTodoList")]
 public class CreateTodoListTests : IClassFixture<ApiFixture>
 {
@@ -13,6 +13,7 @@ public class CreateTodoListTests : IClassFixture<ApiFixture>
     public CreateTodoListTests(ApiFixture fixture, ITestOutputHelper output)
     { 
         _fixture = fixture;
+        _fixture.WithTestLogging(output);
     }
 
     [Fact]

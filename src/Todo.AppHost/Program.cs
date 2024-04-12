@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Builder;
 using Todo.Common;
 
 var builder = DistributedApplication.CreateBuilder(args);
