@@ -8,7 +8,7 @@ namespace Todo.Api.Tests.Fixtures;
 public class ApiTest : IClassFixture<ApiFixture>, IAsyncLifetime
 {
     protected readonly ApiFixture _fixture;
-    public TestJwtToken Token { get; set; } = new();
+    protected TestJwtToken Token { get; set; } = new();
 
     public ApiTest(ApiFixture fixture, ITestOutputHelper output)
     {

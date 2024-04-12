@@ -9,7 +9,7 @@ public class TodoListRecord : IDeleteable
 {
     public Guid Id { get; }
     public string Name { get; set; } = string.Empty;
-    public ICollection<TodoRecord> Todos { get; set; } = new List<TodoRecord>();
+    public ICollection<TodoRecord> Todos { get; set; } = [];
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? ModifiedAt { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
@@ -21,7 +21,8 @@ public class TodoListRecordConfiguration : IEntityTypeConfiguration<TodoListReco
     {
         builder.ToTable("TodoList");
 
-        builder.HasKey(t => t.Id);
+        builder.HasKey(t => t.Id)
+            .IsClustered();
 
         builder.HasIndex(x => x.Name)
             .IsUnique();

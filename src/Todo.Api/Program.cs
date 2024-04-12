@@ -17,6 +17,9 @@ builder.Services.AddSwaggerGen();
 // Add services to the container.
 builder.Services.AddProblemDetails();
 
+builder.Services.AddMvcCore()
+        .AddDataAnnotations();
+
 builder.Services.Configure<ApiBehaviorOptions>(o =>
 {
     o.InvalidModelStateResponseFactory = actionContext =>

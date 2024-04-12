@@ -9,7 +9,10 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Todo.Api.Tests.Security;
+using FluentAssertions;
 
+// TODO for now, you cannot run all tests at once, only one class at a time. Seems like an internal issue wtih Aspire and 
+// the WebApplicationFactory. Hoping they better support integration tests soon
 namespace Todo.Api.Tests;
 
 public class ApiFixture : WebApplicationFactory<Program>, IAsyncLifetime, ITestOutputHelperAccessor
@@ -21,8 +24,18 @@ public class ApiFixture : WebApplicationFactory<Program>, IAsyncLifetime, ITestO
     public TodoClient Client => (Services.GetRequiredService<ITodoClient>() as TodoClient)!;
     public ITestOutputHelper? OutputHelper { get; set; }
 
+    protected TestJwtToken Token { get; set; } = new();
+
     public ApiFixture()
     {
+        AssertionOptions.AssertEquivalencyUsing(options =>
+        {
+            options
+            .Using<DateTimeOffset>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, TimeSpan.FromMilliseconds(100)))
+            .WhenTypeIs<DateTimeOffset>();
+            return options;
+        });
+
         var options = new DistributedApplicationOptions
         {
             AssemblyName = typeof(ApiFixture).Assembly.FullName,
@@ -78,6 +91,31 @@ public class ApiFixture : WebApplicationFactory<Program>, IAsyncLifetime, ITestO
     public async Task InitializeAsync()
     {
         await _app!.StartAsync();
+
+        Client.WithHttpClient(CreateClient());
+
+        SetRoles(Constants.Roles.User);
+
+        ConfigureToken(t => t.WithUserName("Test User")
+        .WithEmail("TestUser@todoapp.com"));
+
+        Clock.SetUtcNow(DateTimeOffset.UtcNow);
+    }
+
+    public TestJwtToken ConfigureToken(Action<TestJwtToken> configure)
+    {
+        Token ??= new TestJwtToken();
+
+        configure(Token);
+        var token = Token.Build();
+        Client.WithToken(token);
+
+        return Token;
+    }
+
+    public void SetRoles(params string[] roles)
+    {
+        ConfigureToken(t => t.WithRoles(roles));
     }
 
     public new async Task DisposeAsync()

@@ -1,21 +1,19 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Todo.Abstractions;
 using Todo.Abstractions.Requests;
-using Todo.Api.Tests.Fixtures;
 using Xunit.Abstractions;
 
 namespace Todo.Api.Tests.Endpoints.Todo;
 [Trait("Category", "TodoListEndpoints")]
 [Trait("Scenario", "CreateTodoList")]
-public class CreateTodoListTests : ApiTest
+public class CreateTodoListTests : IClassFixture<ApiFixture>
 {
+    private readonly ApiFixture _fixture;
+
     public CreateTodoListTests(ApiFixture fixture, ITestOutputHelper output)
-        : base(fixture, output) { }
+    { 
+        _fixture = fixture;
+    }
 
     [Fact]
     public async Task WithValidRequest_ReturnsNewTodoList()

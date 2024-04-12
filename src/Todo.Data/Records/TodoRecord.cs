@@ -24,7 +24,8 @@ public class TodoRecordConfiguration : IEntityTypeConfiguration<TodoRecord>
     {
         builder.ToTable("Todo");
 
-        builder.HasKey(t => t.Id);
+        builder.HasKey(t => t.Id)
+            .IsClustered();
 
         builder.HasIndex(x => x.Name)
             .IsUnique();
