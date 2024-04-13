@@ -5,6 +5,6 @@ namespace Todo.Abstractions.Requests;
 
 public class UpdateTodoListRequest
 {
-    [MaxLength(50)]
-    public string? Name { get; set; } = string.Empty;
+    [StringLength(100, MinimumLength = 1)]
+    public string? Name { get; set; } = null;
 }

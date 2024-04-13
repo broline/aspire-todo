@@ -36,11 +36,14 @@ public class Setup
         return _client.CreateTodoListAsync(request);
     }
 
-    public Task<TodoItem> CreateTodo(Guid? todoListId = null, Action<CreateTodoRequest>? requestAction = null)
+    public async Task<TodoItem> CreateTodo(Guid? todoListId = null, Action<CreateTodoRequest>? requestAction = null)
     {
+        if (todoListId is null)
+            todoListId = (await CreateTodoList()).Id;
+
         var request = CreateTodoRequest(todoListId);
         requestAction?.Invoke(request);
 
-        return _client.CreateTodoAsync(request);
+        return await _client.CreateTodoAsync(request);
     }
 }

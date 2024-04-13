@@ -788,7 +788,8 @@
         "type": "object",
         "properties": {
           "name": {
-            "maxLength": 50,
+            "maxLength": 100,
+            "minLength": 1,
             "type": "string",
             "nullable": true
           }
@@ -800,6 +801,7 @@
         "properties": {
           "name": {
             "maxLength": 100,
+            "minLength": 1,
             "type": "string",
             "nullable": true
           },
