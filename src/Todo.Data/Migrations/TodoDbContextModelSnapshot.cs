@@ -86,10 +86,8 @@ namespace Todo.Data.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
-                    b.HasIndex("Name")
+                    b.HasIndex("TodoListId", "Name")
                         .IsUnique();
-
-                    b.HasIndex("TodoListId");
 
                     b.ToTable("Todo", (string)null);
                 });

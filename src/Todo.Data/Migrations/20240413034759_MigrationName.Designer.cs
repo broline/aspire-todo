@@ -12,7 +12,7 @@ using Todo.Data.DbContexts;
 namespace Todo.Data.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20240412213555_MigrationName")]
+    [Migration("20240413034759_MigrationName")]
     partial class MigrationName
     {
         /// <inheritdoc />
@@ -89,10 +89,8 @@ namespace Todo.Data.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
-                    b.HasIndex("Name")
+                    b.HasIndex("TodoListId", "Name")
                         .IsUnique();
-
-                    b.HasIndex("TodoListId");
 
                     b.ToTable("Todo", (string)null);
                 });

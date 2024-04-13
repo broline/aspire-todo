@@ -53,15 +53,10 @@ namespace Todo.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Todo_Name",
+                name: "IX_Todo_TodoListId_Name",
                 table: "Todo",
-                column: "Name",
+                columns: new[] { "TodoListId", "Name" },
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Todo_TodoListId",
-                table: "Todo",
-                column: "TodoListId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TodoList_Name",
