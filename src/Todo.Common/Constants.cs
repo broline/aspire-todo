@@ -24,6 +24,8 @@
         public static class EnvironmentNames
         {
             public const string OpenApi = "OpenApi";
+
+            public const string Test = "Test";
         }
 
         public static class Roles

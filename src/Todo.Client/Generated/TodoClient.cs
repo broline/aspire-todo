@@ -53,22 +53,22 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TodoItem> CreateTodoListAsync(CreateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TodoList> CreateTodoListAsync(CreateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TodoItem> GetTodoListsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TodoList>> GetTodoListsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TodoItem> UpdateTodoListAsync(System.Guid todoListId, UpdateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TodoList> UpdateTodoListAsync(System.Guid todoListId, UpdateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TodoItem> DeleteTodoListAsync(System.Guid todoListId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TodoList> DeleteTodoListAsync(System.Guid todoListId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -498,7 +498,7 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TodoItem> CreateTodoListAsync(CreateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<TodoList> CreateTodoListAsync(CreateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("todo-lists");
@@ -539,10 +539,10 @@ namespace Todo.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            ObjectResponseResult<TodoItem> objectResponse_ = default!;
+                            ObjectResponseResult<TodoList> objectResponse_ = default!;
                             try
                             {
-                                objectResponse_ = await ReadObjectResponseAsync<TodoItem>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                                objectResponse_ = await ReadObjectResponseAsync<TodoList>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             }
                             catch { }
                             if (objectResponse_.Object == null)
@@ -585,7 +585,7 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TodoItem> GetTodoListsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TodoList>> GetTodoListsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("todo-lists");
@@ -622,10 +622,10 @@ namespace Todo.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            ObjectResponseResult<TodoItem> objectResponse_ = default!;
+                            ObjectResponseResult<System.Collections.Generic.ICollection<TodoList>> objectResponse_ = default!;
                             try
                             {
-                                objectResponse_ = await ReadObjectResponseAsync<TodoItem>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                                objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<TodoList>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             }
                             catch { }
                             if (objectResponse_.Object == null)
@@ -657,7 +657,7 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TodoItem> UpdateTodoListAsync(System.Guid todoListId, UpdateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<TodoList> UpdateTodoListAsync(System.Guid todoListId, UpdateTodoListRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (todoListId == null)
                 throw new System.ArgumentNullException("todoListId");
@@ -702,10 +702,10 @@ namespace Todo.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            ObjectResponseResult<TodoItem> objectResponse_ = default!;
+                            ObjectResponseResult<TodoList> objectResponse_ = default!;
                             try
                             {
-                                objectResponse_ = await ReadObjectResponseAsync<TodoItem>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                                objectResponse_ = await ReadObjectResponseAsync<TodoList>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             }
                             catch { }
                             if (objectResponse_.Object == null)
@@ -770,7 +770,7 @@ namespace Todo.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="TodoApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TodoItem> DeleteTodoListAsync(System.Guid todoListId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<TodoList> DeleteTodoListAsync(System.Guid todoListId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (todoListId == null)
                 throw new System.ArgumentNullException("todoListId");
@@ -811,10 +811,10 @@ namespace Todo.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            ObjectResponseResult<TodoItem> objectResponse_ = default!;
+                            ObjectResponseResult<TodoList> objectResponse_ = default!;
                             try
                             {
-                                objectResponse_ = await ReadObjectResponseAsync<TodoItem>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                                objectResponse_ = await ReadObjectResponseAsync<TodoList>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             }
                             catch { }
                             if (objectResponse_.Object == null)

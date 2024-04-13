@@ -12,8 +12,8 @@ using Todo.Data.DbContexts;
 namespace Todo.Data.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20240410162853_Init")]
-    partial class Init
+    [Migration("20240412213555_MigrationName")]
+    partial class MigrationName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,8 @@ namespace Todo.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -84,6 +86,8 @@ namespace Todo.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
                     b.HasIndex("Name")
                         .IsUnique();

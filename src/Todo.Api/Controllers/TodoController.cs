@@ -4,7 +4,6 @@ using Todo.Abstractions.Requests;
 using Todo.Api.Mappings;
 using Todo.Common;
 using Todo.Data.DbContexts;
-using static Todo.Common.Constants;
 
 namespace Todo.Api.Controllers;
 
@@ -59,14 +58,10 @@ public class TodoController : ControllerBase
             todo.Description = request.Description;
 
         if (request.IsCompleted is true && todo.CompletedAt is null)
-        {
             todo.CompletedAt = _clock.UtcNow;
-        }
 
         if (request.IsCompleted is false && todo.CompletedAt is not null)
-        {
             todo.CompletedAt = null;
-        }
 
         await _db.SaveChangesAsync();
 

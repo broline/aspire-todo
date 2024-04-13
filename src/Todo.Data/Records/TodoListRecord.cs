@@ -6,7 +6,7 @@ namespace Todo.Data.Records;
 
 public class TodoListRecord : IDeleteable
 {
-    public Guid Id { get; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public ICollection<TodoRecord> Todos { get; set; } = [];
     public DateTimeOffset CreatedAt { get; set; }

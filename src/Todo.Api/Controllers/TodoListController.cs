@@ -5,7 +5,6 @@ using Todo.Abstractions.Requests;
 using Todo.Api.Mappings;
 using Todo.Common;
 using Todo.Data.DbContexts;
-using static Todo.Common.Constants;
 
 namespace Todo.Api.Controllers;
 
@@ -25,7 +24,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpPost(Name = nameof(CreateTodoList))]
-    [ProducesResponseType<TodoItem>(StatusCodes.Status200OK)]
+    [ProducesResponseType<TodoList>(StatusCodes.Status200OK)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status400BadRequest)]
     public async Task<IResult> CreateTodoList(CreateTodoListRequest request)
     {
@@ -37,7 +36,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpPatch("{todoListId}", Name = nameof(UpdateTodoList))]
-    [ProducesResponseType<TodoItem>(StatusCodes.Status200OK)]
+    [ProducesResponseType<TodoList>(StatusCodes.Status200OK)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status409Conflict)]
@@ -60,7 +59,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpGet(Name = nameof(GetTodoLists))]
-    [ProducesResponseType<TodoItem>(StatusCodes.Status200OK)]
+    [ProducesResponseType<IEnumerable<TodoList>>(StatusCodes.Status200OK)]
     public IResult GetTodoLists()
     {
         var todoLists = _db.TodoLists.AsNoTracking()
@@ -70,7 +69,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpDelete("{todoListId}", Name = nameof(DeleteTodoList))]
-    [ProducesResponseType<TodoItem>(StatusCodes.Status200OK)]
+    [ProducesResponseType<TodoList>(StatusCodes.Status200OK)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status409Conflict)]
     public async Task<IResult> DeleteTodoList(Guid todoListId)

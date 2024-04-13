@@ -26,7 +26,7 @@ public static class TodoMappings
         {
             Name = request.Name,
             Description = request.Description,
-            TodoListId = request.TodoListId
+            TodoListId = request.TodoListId,
         };
     }
 }

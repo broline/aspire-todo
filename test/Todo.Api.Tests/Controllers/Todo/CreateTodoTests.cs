@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AR.Events.Api.Tests.Fixtures;
+using FluentAssertions;
 using Todo.Abstractions;
 using Todo.Abstractions.Requests;
 using Todo.Api.Tests.Fixtures;
@@ -6,16 +7,14 @@ using Todo.Client;
 using Xunit.Abstractions;
 
 namespace Todo.Api.Tests.Endpoints.Todo;
-[Trait("Scenario", "CreateTodo")]
-public class CreateTodoTests : IClassFixture<ApiFixture>
-{
-    private readonly ApiFixture _fixture;
 
+[Trait("Category", "Todo")]
+[Trait("Scenario", "CreateTodo")]
+[Collection(nameof(ApiCollection))]
+public class CreateTodoTests : ApiTest
+{
     public CreateTodoTests(ApiFixture fixture, ITestOutputHelper output)
-    {
-        _fixture = fixture;
-        _fixture.WithTestLogging(output);
-    }
+        : base(fixture, output) { }
 
     [Fact]
     public async Task WithInvalidTodoListId_ReturnsBadRequest()
@@ -39,15 +38,11 @@ public class CreateTodoTests : IClassFixture<ApiFixture>
     [Fact]
     public async Task WithInvalidName_ReturnsBadRequest()
     {
-        var list = await _fixture.Client.CreateTodoListAsync(new CreateTodoListRequest() { Name = "Test List" });
+        var list = await _fixture.Setup.CreateTodoList();
 
         // ARRANGE
-        var request = new CreateTodoRequest()
-        {
-            Name = "",
-            Description = "Description",
-            TodoListId = list.Id
-        };
+        var request = _fixture.Setup.CreateTodoRequest(list.Id);
+        request.Name = "";
 
         // ACT
         var response = await _fixture.Client.Invoking(c => c.CreateTodoAsync(request))
@@ -61,14 +56,9 @@ public class CreateTodoTests : IClassFixture<ApiFixture>
     public async Task WithValidTodoListId_ReturnsOk()
     {
         // ARRANGE
-        var list = await _fixture.Client.CreateTodoListAsync(new CreateTodoListRequest() { Name = "Test List" });
+        var list = await _fixture.Setup.CreateTodoList();
 
-        var request = new CreateTodoRequest()
-        {
-            Name = "Test todo",
-            Description = "Description",
-            TodoListId = list.Id
-        };
+        var request = _fixture.Setup.CreateTodoRequest(list.Id);
 
         // ACT
         var todo = await _fixture.Client.CreateTodoAsync(request);

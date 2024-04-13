@@ -44,6 +44,8 @@ namespace Todo.Data.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
+
                     b.HasIndex("Name")
                         .IsUnique();
 
@@ -81,6 +83,8 @@ namespace Todo.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
                     b.HasIndex("Name")
                         .IsUnique();

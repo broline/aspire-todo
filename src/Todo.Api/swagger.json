@@ -383,17 +383,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "$ref": "#/components/schemas/TodoList"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "$ref": "#/components/schemas/TodoList"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "$ref": "#/components/schemas/TodoList"
                 }
               }
             }
@@ -431,17 +431,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TodoList"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TodoList"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TodoList"
+                  }
                 }
               }
             }
@@ -491,17 +500,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "$ref": "#/components/schemas/TodoList"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "$ref": "#/components/schemas/TodoList"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "$ref": "#/components/schemas/TodoList"
                 }
               }
             }
@@ -590,17 +599,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "$ref": "#/components/schemas/TodoList"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "$ref": "#/components/schemas/TodoList"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "$ref": "#/components/schemas/TodoList"
                 }
               }
             }
@@ -733,6 +742,41 @@
             "nullable": true
           },
           "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TodoList": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "todos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TodoItem"
+            },
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedAt": {
             "type": "string",
             "format": "date-time",
             "nullable": true

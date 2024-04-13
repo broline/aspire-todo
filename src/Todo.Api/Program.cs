@@ -1,59 +1,32 @@
 using Todo.Data;
-using Microsoft.AspNetCore.Mvc;
-using Todo.Abstractions;
 using Todo.Common;
-using System.Text.Json.Serialization;
+using Todo.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApiDocument();
-builder.Services.AddSwaggerGen();
+// Startup classes are obsolete as of .net 6 and all the registration code should be in program.cs, BUT
+// TestServer in our integration tests do not yet support a single program file, only a startup file
+// WebApplicationFactory does support a program file, BUT then we cannot use collection based fixtures (only class based)
+// meaning each test class would have to create its own server and that would be expensive
+// Doing this for now until one of those two issues are fixed
+var startup = new ApiStartup(builder.Environment, builder.Configuration);
 
-// Add services to the container.
-builder.Services.AddProblemDetails();
-
-builder.Services.AddControllers()
-    .AddJsonOptions(x =>
-    {
-        x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-        x.JsonSerializerOptions.TypeInfoResolverChain.Insert(0, TodoApiSerializationContext.Default);
-    });
-
-builder.Services.Configure<ApiBehaviorOptions>(o =>
-{
-    o.InvalidModelStateResponseFactory = actionContext =>
-    {
-        return new BadRequestObjectResult(new ErrorResponse
-        {
-            Message = string.Join(" ", actionContext.ModelState.Values.SelectMany(v => v.Errors.Select(s => s.ErrorMessage)))
-        });
-    };
-});
+startup.ConfigureServices(builder.Services);
 
 if (builder.Environment.EnvironmentName != Constants.EnvironmentNames.OpenApi)
-    builder.AddDb();
+    builder.AddAspireDb();
 
 var app = builder.Build();
 
-if (app.Environment.EnvironmentName != Constants.EnvironmentNames.OpenApi)
-    await app.UseDb();
+startup.Configure(app);
 
-if (!app.Environment.IsProduction())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+var logger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger(Constants.AppNames.Api);
 
-app.UseRouting();
+logger.LogInformation($"{Constants.AppNames.Api} Started!");
 
-app.UseExceptionHandler();
+await app.RunAsync();
 
-app.MapDefaultEndpoints();
-
-app.MapControllers();
-
-app.Run();
+logger.LogInformation($"{Constants.AppNames.Api} Stopped!");

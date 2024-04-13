@@ -1,20 +1,19 @@
-﻿using FluentAssertions;
+﻿using AR.Events.Api.Tests.Fixtures;
+using FluentAssertions;
 using Todo.Abstractions;
 using Todo.Abstractions.Requests;
 using Todo.Api.Tests.Fixtures;
 using Xunit.Abstractions;
 
 namespace Todo.Api.Tests.Endpoints.Todo;
-[Trait("Scenario", "CreateTodoList")]
-public class CreateTodoListTests : IClassFixture<ApiFixture>
-{
-    private readonly ApiFixture _fixture;
 
+[Trait("Category", "TodoList")]
+[Trait("Scenario", "CreateTodoList")]
+[Collection(nameof(ApiCollection))]
+public class CreateTodoListTests : ApiTest
+{
     public CreateTodoListTests(ApiFixture fixture, ITestOutputHelper output)
-    { 
-        _fixture = fixture;
-        _fixture.WithTestLogging(output);
-    }
+        : base(fixture, output) { }
 
     [Fact]
     public async Task WithValidRequest_ReturnsNewTodoList()

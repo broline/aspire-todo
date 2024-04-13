@@ -7,7 +7,7 @@ namespace Todo.Data;
 
 public static class HostingExtensions
 {
-    public static IHostApplicationBuilder AddDb(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder AddAspireDb(this IHostApplicationBuilder builder, bool addContext = false)
     {
         builder.Services.AddSingleton<IAuditableInterceptor>();
 
@@ -20,7 +20,6 @@ public static class HostingExtensions
             cfg.UseSqlServer(opt =>
             {
                 opt.MigrationsAssembly(typeof(TodoDbContext).Assembly);
-                opt.MigrationsHistoryTable("__MigrationsHistory", "dbo");
             })
             .AddInterceptors([new IAuditableInterceptor()]);
         });
@@ -28,12 +27,23 @@ public static class HostingExtensions
         return builder;
     }
 
-    public static async Task<WebApplication> UseDb(this WebApplication app)
+    public static IServiceCollection AddDb(this IServiceCollection services, string connectionString)
     {
-        using var scope = app.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
-        await context.Database.MigrateAsync();
+        services.AddSingleton<IAuditableInterceptor>();
 
-        return app;
+        services.AddFrozenClock();
+
+        services.AddDbContext<TodoDbContext>(
+            options => options.UseSqlServer(connectionString)
+            .AddInterceptors([new IAuditableInterceptor()]));
+
+        return services;
+    }
+
+    public static void UseDb(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
+        context.Database.Migrate();
     }
 }
