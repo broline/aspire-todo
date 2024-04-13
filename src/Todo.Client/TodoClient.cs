@@ -60,6 +60,6 @@ public partial class TodoClient
     {
         settings.Converters.Add(new JsonStringEnumConverter());
         settings.PropertyNameCaseInsensitive = true;
-        settings.IgnoreNullValues = true;
+        settings.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     }
 }
