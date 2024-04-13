@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 
 namespace Todo.Api;
 

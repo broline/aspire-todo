@@ -3,7 +3,6 @@ using System.Text.Json.Serialization;
 using static Todo.Common.Constants;
 using Todo.Abstractions;
 using Todo.Data;
-using Microsoft.AspNetCore.Builder;
 
 namespace Todo.Api;
 

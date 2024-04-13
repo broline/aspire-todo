@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Todo.Abstractions;
 using Todo.Abstractions.Requests;
 using Todo.Api.Mappings;

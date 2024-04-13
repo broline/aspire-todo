@@ -4,8 +4,6 @@ using System;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("Todo.Api.Tests")]
 namespace Todo.Client;

@@ -1,6 +1,5 @@
 ﻿using AR.Events.Api.Tests.Fixtures;
 using FluentAssertions;
-using Todo.Abstractions.Requests;
 using Todo.Api.Tests.Fixtures;
 using Todo.Client;
 using Xunit.Abstractions;
