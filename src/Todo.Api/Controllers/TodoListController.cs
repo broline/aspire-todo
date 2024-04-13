@@ -28,6 +28,9 @@ public class TodoListController : ControllerBase
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status400BadRequest)]
     public async Task<IResult> CreateTodoList(CreateTodoListRequest request)
     {
+        if (_db.TodoLists.Any(t => t.Name == request.Name))
+            return Results.Conflict(new ErrorResponse($"Todo list name must be unique"));
+
         var todoList = await _db.TodoLists.AddAsync(request.ToRecord());
 
         await _db.SaveChangesAsync();
@@ -51,7 +54,12 @@ public class TodoListController : ControllerBase
             return Results.Conflict(new ErrorResponse("Todo list has been deleted"));
 
         if (request.Name is not null)
+        {
+            if (_db.TodoLists.Any(t => t.Name == request.Name))
+                return Results.Conflict(new ErrorResponse($"Todo list name must be unique"));
+
             todoList.Name = request.Name;
+        }
 
         await _db.SaveChangesAsync();
 
@@ -63,7 +71,9 @@ public class TodoListController : ControllerBase
     public IResult GetTodoLists()
     {
         var todoLists = _db.TodoLists.AsNoTracking()
-            .Where(l => l.DeletedAt != null);
+            .Include(l => l.Todos.Where(t => t.DeletedAt == null).OrderBy(t => t.CreatedAt))
+            .Where(l => l.DeletedAt == null)
+            .OrderByDescending(l => l.CreatedAt);
 
         return Results.Ok(todoLists.Select(x => x.ToAbstraction()));
     }

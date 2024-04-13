@@ -38,9 +38,9 @@ public class CreateTodoTests : ApiTest
     [Fact]
     public async Task WithInvalidName_ReturnsBadRequest()
     {
+        // ARRANGE
         var list = await _fixture.Setup.CreateTodoList();
 
-        // ARRANGE
         var request = _fixture.Setup.CreateTodoRequest(list.Id);
         request.Name = "";
 
@@ -73,5 +73,22 @@ public class CreateTodoTests : ApiTest
         }, opt => opt.Excluding(x => x.Id));
 
         todo.Id.Should().NotBeEmpty();
+    }
+
+    [Fact]
+    public async Task WithSameNameAsExistingInList_ReturnsConflict()
+    {
+        // ARRANGE
+        var createdTodo1 = await _fixture.Setup.CreateTodo(requestAction: t => t.Name = "1");
+
+        var request = _fixture.Setup.CreateTodoRequest(createdTodo1.TodoListId);
+        request.Name = "1";
+
+        // ACT
+        var response = await _fixture.Client.Invoking(c => c.CreateTodoAsync(request))
+            .Should().ThrowAsync<TodoApiException>();
+
+        // ASSERT
+        response.Subject.Single().StatusCode.Should().Be(409);
     }
 }

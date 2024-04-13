@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Todo.Abstractions;
 using Todo.Abstractions.Requests;
 using Todo.Api.Mappings;
@@ -25,10 +26,14 @@ public class TodoController : ControllerBase
     [HttpPost(Name = nameof(CreateTodo))]
     [ProducesResponseType<TodoItem>(StatusCodes.Status200OK)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ErrorResponse>(StatusCodes.Status409Conflict)]
     public async Task<IResult> CreateTodo(CreateTodoRequest request)
     {
         if (request.TodoListId == Guid.Empty || await _db.TodoLists.FindAsync(request.TodoListId) is null)
             return Results.BadRequest(new ErrorResponse("Invalid todo list"));
+
+        if (_db.Todos.Any(t => t.Name == request.Name && t.TodoListId == request.TodoListId))
+            return Results.Conflict(new ErrorResponse($"Todo name must be unique in list"));
 
         var todo = await _db.Todos.AddAsync(request.ToRecord());
 
@@ -40,6 +45,7 @@ public class TodoController : ControllerBase
     [HttpPatch("{todoId}", Name = nameof(UpdateTodo))]
     [ProducesResponseType<TodoItem>(StatusCodes.Status200OK)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ErrorResponse>(StatusCodes.Status409Conflict)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status400BadRequest)]
     public async Task<IResult> UpdateTodo(Guid todoId, UpdateTodoRequest request)
     {
@@ -52,7 +58,12 @@ public class TodoController : ControllerBase
             return Results.Conflict(new ErrorResponse("Todo has been deleted"));
 
         if (request.Name is not null)
+        {
+            if (_db.Todos.Any(t => t.Name == request.Name && t.TodoListId == todo.TodoListId))
+                return Results.Conflict(new ErrorResponse($"Todo name must be unique in list"));
+
             todo.Name = request.Name;
+        }
 
         if (request.Description is not null)
             todo.Description = request.Description;

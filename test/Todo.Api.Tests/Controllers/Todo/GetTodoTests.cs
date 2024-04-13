@@ -9,9 +9,9 @@ namespace Todo.Api.Tests.Endpoints.Todo;
 [Trait("Category", "Todo")]
 [Trait("Scenario", "GetTodo")]
 [Collection(nameof(ApiCollection))]
-public class GetTodoTests : ApiTest
+public class GetTodoListTests : ApiTest
 {
-    public GetTodoTests(ApiFixture fixture, ITestOutputHelper output)
+    public GetTodoListTests(ApiFixture fixture, ITestOutputHelper output)
         : base(fixture, output) { }
 
     [Fact]

@@ -25,7 +25,7 @@ public class TodoRecordConfiguration : IEntityTypeConfiguration<TodoRecord>
         builder.HasKey(t => t.Id)
             .IsClustered();
 
-        builder.HasIndex(x => x.Name)
+        builder.HasIndex(x => new { x.TodoListId, x.Name })
             .IsUnique();
 
         builder.Property(x => x.Name)

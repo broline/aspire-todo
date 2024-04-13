@@ -44,6 +44,8 @@ public class ApiStartup
                 });
             };
         });
+
+        services.AddExceptionHandler<ExceptionHandler>();
     }
 
     public void Configure(IApplicationBuilder app)

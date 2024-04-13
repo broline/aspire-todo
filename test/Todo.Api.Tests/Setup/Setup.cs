@@ -21,6 +21,11 @@ public class Setup
         Name = "Test Todo List"
     };
 
+    public UpdateTodoListRequest UpdateTodoListRequest => new()
+    {
+        Name = "Test Todo List"
+    };
+
     public CreateTodoRequest CreateTodoRequest(Guid? todoListId = null) => new()
     {
         Name = "Test Todo",
@@ -45,5 +50,20 @@ public class Setup
         requestAction?.Invoke(request);
 
         return await _client.CreateTodoAsync(request);
+    }
+    public async Task<TodoList> DeleteTodoList(Guid? todoListId = null)
+    {
+        if (todoListId is null)
+            todoListId = (await CreateTodoList()).Id;
+
+        return await _client.DeleteTodoListAsync(todoListId.Value);
+    }
+
+    public async Task<TodoItem> DeleteTodo(Guid? todoId = null)
+    {
+        if (todoId is null)
+            todoId = (await CreateTodo()).Id;
+
+        return await _client.DeleteTodoAsync(todoId.Value);
     }
 }
