@@ -1,6 +1,8 @@
 using Todo.Web;
 using Todo.Web.Components;
 using Todo.Common;
+using Todo.Client;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,9 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddOutputCache();
 
-builder.Services.AddHttpClient<WeatherApiClient>(client => client.BaseAddress = new($"http://{Constants.AspireResources.Api}"));
+builder.Services.AddMudServices();
+
+builder.Services.AddTodoApiClient(new() { BaseUrl = $"http://{Constants.AspireResources.Api}" });
 
 var app = builder.Build();
 

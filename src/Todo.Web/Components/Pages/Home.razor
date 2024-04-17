@@ -1,7 +1,33 @@
 ﻿@page "/"
+@using Todo.Abstractions
+@using Todo.Client
+@attribute [StreamRendering(true)]
 
-<PageTitle>Home</PageTitle>
+@inject ITodoClient _todoClient
+@inject ISnackbar _snackbar
 
-<h1>Hello, world!</h1>
+<PageTitle>Todo Lists</PageTitle>
 
-Welcome to your new app.
+@code {
+    private ICollection<TodoList> _todoLists = new List<TodoList>();
+
+    private bool _isLoadingLists = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _isLoadingLists = true;
+            _todoLists = await _todoClient.GetTodoListsAsync();
+        }
+        catch(TodoApiException<ErrorResponse> ex)
+        {
+            _snackbar.Add(ex.Result. Message, Severity.Error);
+        }
+        finally
+        {
+            _isLoadingLists = false;
+        }
+
+    }
+}

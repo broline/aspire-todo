@@ -9,7 +9,7 @@ IResourceBuilder<SqlServerServerResource> sql = default!;
 if (builder.ExecutionContext.IsRunMode)
 {
     sql = builder.AddSqlServer(Constants.AspireResources.Sql, sqlPwd, 53547)
-        .WithDataVolume("todo.sql.4");
+        .WithDataVolume("todo.sql.7");
 }
 else
 {
