@@ -11,9 +11,9 @@
 
         public static class AspireResources
         {
-            public const string Api = "Api";
-            public const string Frontend = "Frontend";
-            public const string Sql = "Sql";
+            public const string Api = "api";
+            public const string Frontend = "frontend";
+            public const string Sql = "sql";
         }
 
         public static class Database

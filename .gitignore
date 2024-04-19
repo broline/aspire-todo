@@ -336,3 +336,4 @@ appsettings.local.json
 secrets.json
 *.dtmp
 *.drawio.bkp
+.azure
