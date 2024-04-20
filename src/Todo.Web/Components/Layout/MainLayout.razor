@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using Todo.Web.Components
+@inherits LayoutComponentBase
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -12,6 +13,7 @@
             <MudSpacer />
             <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Href="https://github.com/broline/aspire-todo" Color="Color.Inherit" />
         </MudAppBar>
+        <Loading />
 
         <MudPaper Width="100%">
             <MudContainer Fixed="true">

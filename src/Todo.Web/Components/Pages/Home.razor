@@ -1,33 +1,15 @@
 ﻿@page "/"
 @using Todo.Abstractions
 @using Todo.Client
+@using Todo.Web.Components
 @attribute [StreamRendering(true)]
 
-@inject ITodoClient _todoClient
-@inject ISnackbar _snackbar
+@namespace Todo.Web
 
 <PageTitle>Todo Lists</PageTitle>
 
+<TodoLists />
+
 @code {
-    private ICollection<TodoList> _todoLists = new List<TodoList>();
-
-    private bool _isLoadingLists = false;
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            _isLoadingLists = true;
-            _todoLists = await _todoClient.GetTodoListsAsync();
-        }
-        catch(TodoApiException<ErrorResponse> ex)
-        {
-            _snackbar.Add(ex.Result. Message, Severity.Error);
-        }
-        finally
-        {
-            _isLoadingLists = false;
-        }
-
-    }
+    
 }

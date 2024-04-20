@@ -1,0 +1,35 @@
+﻿@using Todo.Abstractions
+@using Todo.Client
+@using Todo.Web.Services
+
+@inject ILoadingService _loading
+@inject ITodoClient _todoClient
+@inject ISnackbar _snackbar
+
+@namespace Todo.Web.Components
+
+<h3>TodoLists</h3>
+
+@code {
+    private ICollection<TodoList> _todoLists = new List<TodoList>();
+
+    private bool _isLoadingLists = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _loading.IsLoading = true;
+            _todoLists = await _todoClient.GetTodoListsAsync();
+        }
+        catch (TodoApiException<ErrorResponse> ex)
+        {
+            _snackbar.Add(ex.Result.Message, Severity.Error);
+        }
+        finally
+        {
+            _loading.IsLoading = false;
+        }
+
+    }
+}
