@@ -12,6 +12,9 @@ CLI
 
 `dotnet run --project src\Todo.AppHost`
 
+## Generating the manifest
+
+`dotnet run --project src\Todo.AppHost\Todo.AppHost.csproj -- --publisher manifest --output-path aspire-manifest.json`
 
 ## Migrations
 

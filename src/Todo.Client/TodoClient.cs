@@ -10,7 +10,7 @@ namespace Todo.Client;
 
 public partial class TodoClient
 {
-    public string AuthScope { get; set; }
+    public string? AuthScope { get; set; } = null;
 
     internal Guid? PlayerId { get; set; }
 
