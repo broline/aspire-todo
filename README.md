@@ -30,7 +30,9 @@ To un-provision all of the resources run `azd down`
 
 ## Setting up your github actions or ADO pipeline
 
-`azd pipeline config`
+`azd pipeline config` to create a service princiapal and setup secrets
+
+`azd infra synth` to create the infra/ files
 
 ## Generating the manifest
 
