@@ -2,12 +2,12 @@ using Todo.Common;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var sqlPwd = builder.AddParameter("SqlPassword");
-
 IResourceBuilder<SqlServerServerResource> sql = default!; 
 
 if (builder.ExecutionContext.IsRunMode)
 {
+    var sqlPwd = builder.AddParameter("SqlPassword");
+
     sql = builder.AddSqlServer(Constants.AspireResources.Sql, sqlPwd, 53547)
         .WithDataVolume("todo.sql.7");
 }
