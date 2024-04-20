@@ -337,3 +337,5 @@ secrets.json
 *.dtmp
 *.drawio.bkp
 .azure
+/src/Todo.AppHost/aspire-manifest.json
+/src/Todo.AppHost/sql.module.bicep
