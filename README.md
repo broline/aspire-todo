@@ -28,6 +28,10 @@ To deploy the resources after changes run `azd deploy`
 
 To un-provision all of the resources run `azd down`
 
+## Setting up your github actions or ADO pipeline
+
+`azd pipeline config`
+
 ## Generating the manifest
 
 `dotnet run --project src\Todo.AppHost\Todo.AppHost.csproj -- --publisher manifest --output-path aspire-manifest.json`
