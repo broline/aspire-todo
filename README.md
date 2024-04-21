@@ -32,7 +32,7 @@ To un-provision all of the resources run `azd down`
 
 `azd pipeline config` to create a service princiapal and setup secrets
 
-`azd infra synth` to create the infra/ files
+`azd infra synth` to create the infra/ files which then can be customized
 
 ## Generating the manifest
 
