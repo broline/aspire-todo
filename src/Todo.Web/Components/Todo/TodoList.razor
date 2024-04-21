@@ -31,9 +31,6 @@
             <MudCheckBox T="bool" Value="@todo.IsCompleted" ValueChanged="(v) => HandleCompleted(todo, v)" Label="@todo.Name" Color="Color.Primary"></MudCheckBox>
         }
     </MudCardContent>
-    <MudCardActions>
-        <MudButton Variant="Variant.Text" Color="Color.Primary">Read More</MudButton>
-    </MudCardActions>
 </MudCard>
 
 @code {
