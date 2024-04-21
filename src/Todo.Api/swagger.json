@@ -457,6 +457,26 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -785,6 +805,10 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "isCompleted": {
+            "type": "boolean",
+            "readOnly": true
           }
         },
         "additionalProperties": false

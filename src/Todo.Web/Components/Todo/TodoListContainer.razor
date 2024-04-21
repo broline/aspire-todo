@@ -1,0 +1,60 @@
+﻿@using Todo.Abstractions
+@using Todo.Client
+@using Todo.Web.Services
+
+@inject ILoadingService _loading
+@inject ITodoClient _client
+@inject IToastService _toastService
+
+@namespace Todo.Web.Components
+
+<AddList OnTodoListCreated="HandelTodoListCreated" />
+
+<MudGrid Spacing="4" Justify="Justify.Center">
+    @foreach (var list in _todoLists)
+    {
+        <MudItem xs="4" lg="6">
+            <TodoList OnTodoListDeleted="HandleTodoListDeleted" List="list" />
+        </MudItem>
+    }
+</MudGrid>
+
+@code {
+    private ICollection<Todo.Abstractions.TodoList> _todoLists = new List<Todo.Abstractions.TodoList>();
+
+    private bool _isLoadingLists = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadLists();
+    }
+
+    async Task HandelTodoListCreated(Todo.Abstractions.TodoList newList)
+    {
+        await LoadLists();
+    }
+
+    async Task HandleTodoListDeleted(Todo.Abstractions.TodoList newList)
+    {
+        await LoadLists();
+    }
+
+    async Task LoadLists()
+    {
+        try
+        {
+            _loading.IsLoading = true;
+            StateHasChanged();
+            _todoLists = await _client.GetTodoListsAsync();
+        }
+        catch (TodoApiException<ErrorResponse> ex)
+        {
+            _toastService.ShowError(ex.Result.Message);
+        }
+        finally
+        {
+            _loading.IsLoading = false;
+            StateHasChanged();
+        }
+    }
+}

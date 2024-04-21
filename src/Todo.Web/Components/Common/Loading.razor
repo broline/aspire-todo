@@ -4,8 +4,8 @@
 
 @namespace Todo.Web.Components
 
-<MudProgressLinear 
+<MudProgressLinear
     Color="Color.Primary"
-    Style="@(_loading.IsLoading ? "visibility:hidden" : "")"
-    Indeterminate="true"
-    Class="my-7" />
+    Style="@(!_loading.IsLoading ? "visibility:hidden" : "")"
+    Class="my-1"
+    Indeterminate="true" />

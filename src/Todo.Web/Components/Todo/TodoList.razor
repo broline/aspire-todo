@@ -1,0 +1,135 @@
+﻿@using Todo.Abstractions
+@using Todo.Client
+@using Todo.Web.Services
+
+@inject ILoadingService _loading
+@inject ITodoClient _client
+@inject IToastService _toastService
+
+@namespace Todo.Web.Components
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">@List.Name</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Default" @onclick="@DeleteList" />
+        </CardHeaderActions>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudTextField @bind-Value="_newName"
+                      @ref="_ref"
+                      Label="New todo..."
+                      Variant="Variant.Text"
+                      Margin="Margin.Dense"
+                      @onkeyup="@HandleKey"
+                      MaxLength="50" />
+
+        @foreach (var todo in List.Todos)
+        {
+            <MudCheckBox T="bool" Value="@todo.IsCompleted" ValueChanged="(v) => HandleCompleted(todo, v)" Label="@todo.Name" Color="Color.Primary"></MudCheckBox>
+        }
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Read More</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter]
+    public Todo.Abstractions.TodoList List { get; set; } = default!;
+
+    [Parameter]
+    public Func<Todo.Abstractions.TodoList, Task>? OnTodoListDeleted { get; set; }
+
+    private string? _newName;
+    MudTextField<string?> _ref = default!;
+
+    protected async void HandleKey(KeyboardEventArgs e)
+    {
+        if ((e.Code == "Enter" || e.Code == "NumpadEnter") && !string.IsNullOrWhiteSpace(_newName))
+        {
+            var todo = await CreateTodo(_newName);
+
+            if (todo is null)
+                return;
+
+            List.Todos = List.Todos.Append(todo);
+
+            _newName = string.Empty;
+
+            await _ref.BlurAsync();
+
+            StateHasChanged();
+        }
+    }
+
+    protected async void HandleCompleted(TodoItem todo, bool value)
+    {
+        try
+        {
+            _loading.IsLoading = true;
+            StateHasChanged();
+            var updated = await _client.UpdateTodoAsync(todo.Id, new()
+                {
+                    IsCompleted = value
+                });
+            todo.CompletedAt = updated.CompletedAt;
+        }
+        catch (TodoApiException<ErrorResponse> ex)
+        {
+            _toastService.ShowError(ex.Result.Message);
+        }
+        finally
+        {
+            _loading.IsLoading = false;
+            StateHasChanged();
+        }        
+    }
+
+    async Task<TodoItem?> CreateTodo(string name)
+    {
+        try
+        {
+            _loading.IsLoading = true;
+            StateHasChanged();
+            return await _client.CreateTodoAsync(new()
+                {
+                    TodoListId = List.Id,
+                    Name = name
+                });
+        }
+        catch (TodoApiException<ErrorResponse> ex)
+        {
+            _toastService.ShowError(ex.Result.Message);
+            return null;
+        }
+        finally
+        {
+            _loading.IsLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    async Task DeleteList()
+    {
+        try
+        {
+            _loading.IsLoading = true;
+            StateHasChanged();
+            await _client.DeleteTodoListAsync(List.Id);
+
+            OnTodoListDeleted?.Invoke(List);
+        }
+        catch (TodoApiException<ErrorResponse> ex)
+        {
+            _toastService.ShowError(ex.Result.Message);
+        }
+        finally
+        {
+            _loading.IsLoading = false;
+            StateHasChanged();
+        }
+    }
+}

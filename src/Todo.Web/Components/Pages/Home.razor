@@ -1,14 +1,16 @@
 ﻿@page "/"
+@using Blazored.Toast.Configuration
 @using Todo.Abstractions
 @using Todo.Client
 @using Todo.Web.Components
-@attribute [StreamRendering(true)]
+@rendermode InteractiveServer
 
 @namespace Todo.Web
 
-<PageTitle>Todo Lists</PageTitle>
+<BlazoredToasts IconType="IconType.Material" Position="ToastPosition.BottomRight" />
 
-<TodoLists />
+<PageTitle>Todo Lists</PageTitle>
+<TodoListContainer />
 
 @code {
     
