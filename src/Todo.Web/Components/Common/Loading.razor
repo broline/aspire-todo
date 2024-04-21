@@ -1,0 +1,11 @@
+﻿@using Todo.Web.Services
+
+@inject ILoadingService _loading;
+
+@namespace Todo.Web.Components
+
+<MudProgressLinear
+    Color="Color.Primary"
+    Style="@(!_loading.IsLoading ? "visibility:hidden" : "")"
+    Class="my-1"
+    Indeterminate="true" />

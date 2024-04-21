@@ -1,8 +1,6 @@
-﻿@inherits LayoutComponentBase
-
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
+﻿@using Blazored.Toast.Configuration
+@using Todo.Web.Components
+@inherits LayoutComponentBase
 
 <div class="page">
 
@@ -12,17 +10,16 @@
             <MudSpacer />
             <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Href="https://github.com/broline/aspire-todo" Color="Color.Inherit" />
         </MudAppBar>
+        <Loading />
 
-        <MudPaper Width="100%">
-            <MudContainer Fixed="true">
-                <MudPaper Width="100%" Square="true">@Body</MudPaper>
-            </MudContainer>
-        </MudPaper>
+        <MudContainer Fixed="true">
+            @Body
+        </MudContainer>
+
+        <MudThemeProvider />
+        <MudDialogProvider />
     </main>
 </div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+@code{
+}

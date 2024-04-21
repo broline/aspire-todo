@@ -3,6 +3,8 @@ using Todo.Web.Components;
 using Todo.Common;
 using Todo.Client;
 using MudBlazor.Services;
+using Todo.Web.Services;
+using Blazored.Toast;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,11 @@ builder.Services.AddOutputCache();
 
 builder.Services.AddMudServices();
 
+builder.Services.AddBlazoredToast();
+
 builder.Services.AddTodoApiClient(new() { BaseUrl = $"http://{Constants.AspireResources.Api}" });
+
+builder.Services.AddScoped<ILoadingService, LoadingService>();
 
 var app = builder.Build();
 

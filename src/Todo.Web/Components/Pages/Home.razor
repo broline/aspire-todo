@@ -1,33 +1,17 @@
 ﻿@page "/"
+@using Blazored.Toast.Configuration
 @using Todo.Abstractions
 @using Todo.Client
-@attribute [StreamRendering(true)]
+@using Todo.Web.Components
+@rendermode InteractiveServer
 
-@inject ITodoClient _todoClient
-@inject ISnackbar _snackbar
+@namespace Todo.Web
+
+<BlazoredToasts IconType="IconType.Material" Position="ToastPosition.BottomRight" />
 
 <PageTitle>Todo Lists</PageTitle>
+<TodoListContainer />
 
 @code {
-    private ICollection<TodoList> _todoLists = new List<TodoList>();
-
-    private bool _isLoadingLists = false;
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            _isLoadingLists = true;
-            _todoLists = await _todoClient.GetTodoListsAsync();
-        }
-        catch(TodoApiException<ErrorResponse> ex)
-        {
-            _snackbar.Add(ex.Result. Message, Severity.Error);
-        }
-        finally
-        {
-            _isLoadingLists = false;
-        }
-
-    }
+    
 }

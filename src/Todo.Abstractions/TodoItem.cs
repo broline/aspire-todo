@@ -12,4 +12,5 @@ public class TodoItem
     public DateTimeOffset? ModifiedAt { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
     public DateTimeOffset? CompletedAt { get; set; }
+    public bool IsCompleted => CompletedAt is not null;
 }

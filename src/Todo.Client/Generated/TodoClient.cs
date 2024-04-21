@@ -585,6 +585,17 @@ namespace Todo.Client
                             throw new TodoApiException<ErrorResponse>("Bad Request: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Bad Request"), null);
                         }
                         else
+                        if (status_ == 409)
+                        {
+                            ObjectResponseResult<ErrorResponse> objectResponse_ = default!;
+                            try
+                            {
+                                objectResponse_ = await ReadObjectResponseAsync<ErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            }
+                            catch { }
+                            throw new TodoApiException<ErrorResponse>("Conflict: " + objectResponse_.Object?.Message, status_, objectResponse_.Text, headers_, objectResponse_.Object ?? new ErrorResponse("Conflict"), null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new TodoApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);

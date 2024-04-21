@@ -26,10 +26,11 @@ public class TodoListController : ControllerBase
     [HttpPost(Name = nameof(CreateTodoList))]
     [ProducesResponseType<TodoList>(StatusCodes.Status200OK)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ErrorResponse>(StatusCodes.Status409Conflict)]
     public async Task<IResult> CreateTodoList(CreateTodoListRequest request)
     {
         if (_db.TodoLists.Any(t => t.Name == request.Name))
-            return Results.Conflict(new ErrorResponse($"Todo list name must be unique"));
+            return Results.Conflict(new ErrorResponse($"There is a list named {request.Name}"));
 
         var todoList = await _db.TodoLists.AddAsync(request.ToRecord());
 
@@ -56,7 +57,7 @@ public class TodoListController : ControllerBase
         if (request.Name is not null)
         {
             if (_db.TodoLists.Any(t => t.Name == request.Name))
-                return Results.Conflict(new ErrorResponse($"Todo list name must be unique"));
+                return Results.Conflict(new ErrorResponse($"There is a todo named {request.Name}"));
 
             todoList.Name = request.Name;
         }

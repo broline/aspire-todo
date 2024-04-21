@@ -1,0 +1,75 @@
+﻿@using Todo.Abstractions
+@using Todo.Client
+@using Todo.Web.Services
+
+@inject ILoadingService _loading
+@inject ITodoClient _client
+@inject IToastService _toastService
+
+@namespace Todo.Web.Components
+
+<MudContainer MaxWidth="MaxWidth.Small">
+    <MudTextField @bind-Value="_newListName"
+                @ref="_ref"
+                  Label="Start a new list..."
+                  Variant="Variant.Text"
+                  Margin="Margin.Dense"
+                  @onkeyup="@HandleKey"
+                  MaxLength="100" />
+</MudContainer>
+
+
+@code {
+    [Parameter]
+    public Func<Todo.Abstractions.TodoList, Task>? OnTodoListCreated { get; set; }
+
+    private bool _isAdding = false;
+    private string? _newListName;
+    MudTextField<string?> _ref = default!;
+
+    public void HandleAddNewClicked(MouseEventArgs args)
+    {
+        _isAdding = true;
+        StateHasChanged();
+    }
+
+    protected async void HandleKey(KeyboardEventArgs e)
+    {
+        if ((e.Code == "Enter" || e.Code == "NumpadEnter") && !string.IsNullOrWhiteSpace(_newListName))
+        {
+            var list = await CreateList(_newListName);
+
+            if (list is null)
+                return;
+
+            OnTodoListCreated?.Invoke(list);
+
+            _newListName = string.Empty;
+
+            await _ref.BlurAsync();
+
+            StateHasChanged();
+        }
+    }
+
+    async Task<Todo.Abstractions.TodoList?> CreateList(string name)
+    {
+        try
+        {
+            _loading.IsLoading = true;
+            StateHasChanged();
+            return await _client.CreateTodoListAsync(new() { Name = name });
+        }
+        catch (TodoApiException<ErrorResponse> ex)
+        {
+            _toastService.ShowError(ex.Result.Message);
+            StateHasChanged();
+            return null;
+        }
+        finally
+        {
+            _loading.IsLoading = false;
+            StateHasChanged();
+        }
+    }
+}
