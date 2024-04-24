@@ -23,9 +23,6 @@ public class TodoListRecordConfiguration : IEntityTypeConfiguration<TodoListReco
         builder.HasKey(t => t.Id)    
             .IsClustered();
 
-        builder.HasIndex(x => x.Name)
-            .IsUnique();
-
         builder.Property(x => x.Name)
             .IsRequired()
             .HasMaxLength(50);

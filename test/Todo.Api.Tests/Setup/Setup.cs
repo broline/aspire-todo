@@ -16,7 +16,7 @@ public class Setup
         _client = client;
     }
 
-    public CreateTodoListRequest CreateTodoListRequest => new()
+    public CreateTodoListRequest CreateTodoListRequest() => new()
     {
         Name = "Test Todo List"
     };

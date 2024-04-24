@@ -29,9 +29,6 @@ public class TodoListController : ControllerBase
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status409Conflict)]
     public async Task<IResult> CreateTodoList(CreateTodoListRequest request)
     {
-        if (_db.TodoLists.Any(t => t.Name == request.Name))
-            return Results.Conflict(new ErrorResponse($"There is a list named {request.Name}"));
-
         var todoList = await _db.TodoLists.AddAsync(request.ToRecord());
 
         await _db.SaveChangesAsync();

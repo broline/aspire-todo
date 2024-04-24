@@ -62,7 +62,7 @@ public class CreateTodoListTests : ApiTest
     }
 
     [Fact]
-    public async Task WithSameNameAsExisting_ReturnsConflict()
+    public async Task WithSameNameAsExisting_ReturnsOk()
     {
         // ARRANGE
         var existing = await _fixture.Setup.CreateTodoList();
@@ -71,10 +71,6 @@ public class CreateTodoListTests : ApiTest
         request.Name = existing.Name;
 
         // ACT
-        var response = await _fixture.Client.Invoking(c => c.CreateTodoListAsync(request))
-            .Should().ThrowAsync<TodoApiException>();
-
-        // ASSERT
-        response.Subject.Single().StatusCode.Should().Be(409);
+        var response = await _fixture.Client.CreateTodoListAsync(request);
     }
 }
