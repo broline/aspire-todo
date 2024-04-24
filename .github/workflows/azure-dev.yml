@@ -53,7 +53,7 @@ jobs:
         shell: pwsh
 
       - name: Provision Infrastructure
-        run: azd provision -e dev --no-prompt
+        run: azd provision -e todo-dev --no-prompt
 
       - name: Deploy Application
-        run: azd deploy -e dev --no-prompt
+        run: azd deploy -e todo-dev --no-prompt
