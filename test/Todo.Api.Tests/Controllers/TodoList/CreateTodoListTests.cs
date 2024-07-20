@@ -20,7 +20,7 @@ public class CreateTodoListTests : ApiTest
     public async Task WithValidRequest_ReturnsOk()
     {
         // ARRANGE
-        var request = new CreateTodoListRequest()
+        var request = new CreateTodoListRequest
         {
             Name = "New list"
         };
